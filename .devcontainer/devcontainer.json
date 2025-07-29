@@ -1,0 +1,13 @@
+{
+  "name": "Python",
+  "image": "ghcr.io/astral-sh/uv:bookworm",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff"
+      ]
+    }
+  },
+  "postCreateCommand": ".devcontainer/python/postCreateCommand.sh && echo 'postCreateCommand completed' > /tmp/create-completed.log"
+}
