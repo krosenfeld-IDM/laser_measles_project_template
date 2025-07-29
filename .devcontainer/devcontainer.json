@@ -1,6 +1,6 @@
 {
   "name": "Python",
-  "image": "ghcr.io/astral-sh/uv:bookworm",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "customizations": {
     "vscode": {
       "extensions": [
