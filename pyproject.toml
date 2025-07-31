@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "Katherine Rosenfeld", email = "56368533+krosenfeld-IDM@users.noreply.github.com" }
+    { name = "Katherine Rosenfeld", email = "krosenf@users.noreply.github.com" }
 ]
 requires-python = ">=3.11"
 dependencies = []
