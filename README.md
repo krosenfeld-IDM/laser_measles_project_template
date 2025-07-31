@@ -38,3 +38,83 @@ To update the submodule to the latest commit on its default branch:
 ```bash
 git submodule update --remote laser-measles
 ```
+
+## Project Initialization
+
+### Prerequisites
+
+- Python 3.11+ (recommended)
+- Git
+
+### Installation Steps
+
+1. **Clone the repository with submodules:**
+   ```bash
+   git clone --recurse-submodules <repository-url>
+   cd laser_measles_project_template
+   ```
+
+2. **Install UV (Python package manager):**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+3. **Install project and dependencies:**
+   ```bash
+   # This creates a virtual environment and installs all dependencies
+   uv sync
+   
+   # Install laser-measles submodule
+   cd laser-measles
+   uv pip install -e ".[dev]"
+   cd ..
+   ```
+
+4. **Verify installation:**
+   ```bash
+   # Activate the environment
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   
+   # Test the laser-measles CLI
+   laser-measles --help
+   
+   # Run tests to ensure everything is working
+   cd laser-measles
+   pytest tests/unit/ -v
+   cd ..
+   ```
+
+### Development Setup
+
+For full development including examples and documentation:
+
+```bash
+cd laser-measles
+uv pip install -e ".[full]"
+cd ..
+```
+
+### Quick Start
+
+After installation, you can run a basic model:
+
+```python
+from laser_measles.abm import ABMModel, ABMParams
+from laser_measles.scenarios.synthetic import SyntheticScenario
+
+# Create a simple scenario and model
+scenario = SyntheticScenario(num_patches=10, population_size=10000)
+params = ABMParams(num_ticks=365, use_numba=False)
+model = ABMModel(scenario, params, name="test_model")
+
+# Add basic components and run
+from laser_measles.abm.components import *
+model.components = [
+    ProcessVitalDynamics,
+    ProcessInfection,
+    ProcessTransmission,
+    TrackerState
+]
+
+model.run()
+```
