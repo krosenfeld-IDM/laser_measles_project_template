@@ -117,7 +117,7 @@ The project extends the base laser-measles ABM with a comprehensive event system
 - Maintains backward compatibility with existing components
 
 #### Event-Enabled Components
-- **ProcessVitalDynamics**: Emits death and birth events with agent details
+- **ProcessVitalDynamics**: Emits death and birth events with agent details (no longer includes vaccination)
 - **DeathMonitorTracker**: Tracks death statistics by listening to death events
 - Custom components can inherit from EventMixin to gain event capabilities
 
@@ -163,7 +163,34 @@ Events carry rich contextual information:
     'num_deaths': 3,                      # Total count
     'tick': 15                            # When it happened
 }
+
+# Birth event example (vaccination_delay removed)
+{
+    'event_type': 'births',
+    'agent_indices': [100, 101, 102],     # New agent indices
+    'patch_births': [2, 1, 0],           # Births per patch
+    'total_births': 3,                    # Total new births
+    'birth_rate': 0.02,                   # Birth rate used
+    'tick': 15                            # When births occurred
+}
 ```
+
+### Model Characteristics
+
+#### Disease Dynamics Without Vaccination
+This model focuses on **natural disease dynamics only**:
+- **No MCV1 vaccination**: Routine immunization has been completely removed
+- **No vaccination scheduling**: Newborns remain susceptible throughout the simulation  
+- **Pure epidemiological modeling**: Disease spreads based on transmission, recovery, and vital dynamics only
+- **Simplified vital dynamics**: Birth and death processes without vaccination complications
+
+#### Scenario Data Requirements
+The model requires scenario data with these fields:
+- `pop`: Population count per patch (integer)
+- `lat`: Latitude (float)
+- `lon`: Longitude (float)  
+- `id`: Patch identifiers (string or integer)
+- **Note**: `mcv1` field has been removed - no vaccination coverage data needed
 
 ### Development Guidelines
 
@@ -261,3 +288,4 @@ The project maintains full backward compatibility:
 2. **Import Errors**: Ensure virtual environment is activated and both project and laser-measles are installed
 3. **Event System Not Working**: Check that components inherit from EventMixin and implement `set_event_bus()`
 4. **Performance Issues**: Use `use_numba=True` in model parameters for large simulations
+5. **MCV1/Vaccination Errors**: This model has vaccination completely removed. Do not include `mcv1` fields in scenario data or vaccination parameters in components

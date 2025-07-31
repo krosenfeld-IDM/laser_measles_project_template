@@ -40,13 +40,10 @@ class WPPVitalDynamicsProcess(BasePhase):
         self.null_value = np.iinfo(date_of_birth_dtype).max
 
         if model.params.num_ticks >= self.null_value:
-            raise ValueError("Simulation is too long; birth and vaccination dates must be able to store the number of ticks")
+            raise ValueError("Simulation is too long; birth dates must be able to store the number of ticks")
 
         people.add_scalar_property("active", dtype=np.bool, default=False)
         people.add_scalar_property("date_of_birth", dtype=date_of_birth_dtype, default=self.null_value)
-        people.add_scalar_property("date_of_vaccination", dtype=np.uint32, default=self.null_value)
-
-        self.vaccination_queue: SortedQueue = SortedQueue(capacity=capacity, values=people.date_of_vaccination)
 
         # initialize patch id
         patch_ids = np.concatenate([np.full(pop, i) for i, pop in enumerate(model.scenario["pop"].to_numpy())])

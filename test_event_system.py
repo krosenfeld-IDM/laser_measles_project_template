@@ -25,8 +25,7 @@ def create_simple_scenario():
         'pop': [1000, 800, 1200],  # Population in each patch
         'lat': [40.7, 40.8, 40.9],  # Latitude
         'lon': [-74.0, -74.1, -74.2],  # Longitude
-        'id': ['patch_1', 'patch_2', 'patch_3'],  # Patch IDs
-        'mcv1': [0.8, 0.75, 0.85]  # MCV1 coverage
+        'id': ['patch_1', 'patch_2', 'patch_3']  # Patch IDs
     })
 
 
@@ -36,6 +35,7 @@ def test_event_system():
     print("=" * 50)
     
     # Create scenario and parameters
+    
     scenario = create_simple_scenario()
     params = ABMParams(
         num_ticks=10,  # Short simulation
@@ -54,7 +54,6 @@ def test_event_system():
     # Setup components with vital dynamics and event monitoring
     # Override the default death rate to make sure we see some deaths
     vital_params = VitalDynamicsParams(
-        routine_immunization_delay=270,  # 9 months in days
         crude_death_rate=200.0  # Very high death rate for testing (200 per 1000 per year)
     )
     

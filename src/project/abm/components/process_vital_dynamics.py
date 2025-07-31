@@ -1,5 +1,5 @@
 """
-Component defining the VitalDynamicsProcess, which simulates the vital dynamics in the ABM model with MCV1.
+Component defining the VitalDynamicsProcess, which simulates the vital dynamics in the ABM model.
 """
 
 import numpy as np
@@ -18,13 +18,12 @@ class VitalDynamicsParams(BaseVitalDynamicsParams):
     """
     Parameters for VitalDynamicsProcess.
     """
-
-    routine_immunization_delay: int = Field(default=9 * 30, description="Delay in days before routine immunization is administered")
+    pass
 
 
 class VitalDynamicsProcess(BaseVitalDynamicsProcess, EventMixin):
     """
-    Process for simulating vital dynamics in the ABM model with MCV1 and constant birth and mortality rates (not age-structured).
+    Process for simulating vital dynamics in the ABM model with constant birth and mortality rates (not age-structured).
     """
 
     def __init__(self, model, verbose: bool = False, params: VitalDynamicsParams | None = None) -> None:
@@ -45,13 +44,10 @@ class VitalDynamicsProcess(BaseVitalDynamicsProcess, EventMixin):
 
         people.add_scalar_property("active", dtype=np.bool, default=False)
         people.add_scalar_property("date_of_birth", dtype=date_of_birth_dtype, default=self.null_value)
-        people.add_scalar_property("date_of_vaccination", dtype=np.uint32, default=self.null_value)
         patches.add_scalar_property("births", dtype=np.uint32)
 
-        self.vaccination_queue: SortedQueue = SortedQueue(capacity=capacity, values=people.date_of_vaccination)
-
         if model.params.num_ticks >= self.null_value:
-            raise ValueError("Simulation is too long; birth and vaccination dates must be able to store the number of ticks")
+            raise ValueError("Simulation is too long; birth dates must be able to store the number of ticks")
 
     def __call__(self, model, tick: int) -> None:
         """
@@ -100,7 +96,6 @@ class VitalDynamicsProcess(BaseVitalDynamicsProcess, EventMixin):
                 istart, iend = people.add(total_births)
                 people.date_of_birth[istart:iend] = tick  # born today
                 people.susceptibility[istart:iend] = 1.0  # all newborns are susceptible TODO: add maternal immunity component
-                people.date_of_vaccination[istart:iend] = tick + self._routine_immunization_delay()
                 index = istart
                 # update patch id
                 for this_patch_id, this_patch_births in enumerate(births):
@@ -117,17 +112,10 @@ class VitalDynamicsProcess(BaseVitalDynamicsProcess, EventMixin):
                         'agent_indices': list(range(istart, iend)),
                         'patch_births': births.tolist(),
                         'total_births': total_births,
-                        'birth_rate': self.lambda_birth,
-                        'vaccination_delay': self._routine_immunization_delay()
+                        'birth_rate': self.lambda_birth
                     }
                 )
 
-        # Routine immunization
-        # --------------------
-        while len(self.vaccination_queue) > 0 and people.date_of_vaccination[self.vaccination_queue.peeki()] <= tick:
-            i = self.vaccination_queue.popi()
-            people.susceptibility[i] = 0.0  # susceptibility
-            people.state[i] = model.params.states.index("R")  # move to recovered state
 
     def calculate_capacity(self, model) -> int:
         """Estimate the necessary capacity of the people laserframe."""
@@ -136,10 +124,6 @@ class VitalDynamicsProcess(BaseVitalDynamicsProcess, EventMixin):
         N = model.scenario["pop"].to_numpy() * np.exp(rate * buffered_ticks)
         return int(N.sum())
 
-    def _routine_immunization_delay(self) -> int:
-        """Delay in ticks before routine immunization is administered."""
-        params: VitalDynamicsParams = self.params  # type: ignore
-        return params.routine_immunization_delay * self.model.params.time_step_days
 
     def _initialize(self, model: ABMModel) -> None:
         # initialize the people laserframe with correct capacity
