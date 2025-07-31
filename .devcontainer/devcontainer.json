@@ -9,5 +9,5 @@
       ]
     }
   },
-  "postCreateCommand": ".devcontainer/python/postCreateCommand.sh && echo 'postCreateCommand completed' > /tmp/create-completed.log"
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh && echo 'postCreateCommand completed' > /tmp/create-completed.log"
 }
