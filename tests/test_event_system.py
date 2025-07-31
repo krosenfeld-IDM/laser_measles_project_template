@@ -8,9 +8,9 @@ components to demonstrate the event system functionality.
 
 import polars as pl
 import numpy as np
-from src.project.abm.model import ABMModel
-from src.project.abm.params import ABMParams
-from src.project.abm.components import (
+from project.abm.model import ABMModel
+from project.abm.params import ABMParams
+from project.abm.components import (
     VitalDynamicsProcess, 
     VitalDynamicsParams,
     DeathMonitorTracker,
