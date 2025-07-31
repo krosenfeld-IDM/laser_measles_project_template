@@ -77,3 +77,10 @@ __all__.extend(["SIACalendarParams", "SIACalendarProcess"])
 from .tracker_age_pyramid import AgePyramidTracker, AgePyramidTrackerParams
 
 __all__.extend(["AgePyramidTracker", "AgePyramidTrackerParams"])
+
+# Event System Examples
+# ---------------------
+
+from .tracker_death_monitor import DeathMonitorTracker, DeathMonitorParams, DeathAwareComponent
+
+__all__.extend(["DeathMonitorTracker", "DeathMonitorParams", "DeathAwareComponent"])
