@@ -13,7 +13,8 @@ This is a project template built on the laser-measles framework - a spatial meas
 - `src/project/` - Project-specific extensions and customizations
 - `src/project/abm/` - Agent-based model components and extensions
 - `src/project/abm/components/` - Custom ABM components
-- `test_event_system.py` - Integration tests for event system
+- `tests/` - Project-specific test files
+- `tests/test_event_system.py` - Integration tests for event system
 
 ### Architecture Overview
 
@@ -73,7 +74,9 @@ pytest -m "not slow"  # Skip slow tests
 cd ..
 
 # Run project-specific tests
-python test_event_system.py
+python tests/test_event_system.py
+# Or run all project tests
+pytest tests/ -v
 
 # Run tests with coverage (in laser-measles directory)
 pytest --cov --cov-report=term-missing --cov-report=xml -vv tests
@@ -265,10 +268,10 @@ print(f"Events emitted: {stats['events_emitted']}")
 ### Test Types
 - **Unit Tests**: In `laser-measles/tests/unit/` for framework components
 - **Scientific Tests**: In `laser-measles/tests/scientific/` for model validation
-- **Integration Tests**: Project-level tests like `test_event_system.py`
+- **Integration Tests**: Project-level tests in `tests/` directory
 
 ### Event System Testing
-The `test_event_system.py` demonstrates:
+The `tests/test_event_system.py` demonstrates:
 - Full model execution with event system
 - Event emission and subscription verification
 - Component interaction through events
