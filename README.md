@@ -1,4 +1,4 @@
-# laser_measles_project_template
+# project
 
 ## Setup
 
