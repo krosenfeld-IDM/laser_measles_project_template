@@ -151,6 +151,7 @@ The model requires scenario data with these fields:
 - **Note**: `mcv1` field has been removed - no vaccination coverage data needed
 
 ### Development Guidelines
+Always make sure that CLAUDE.md is up to date with changes made unless otherwise specified.
 
 #### Component Development
 1. Inherit from appropriate base class (BaseComponent, BaseTracker, etc.)
