@@ -250,6 +250,20 @@ class EventMixin:
         """Set the event bus for this component."""
         self._event_bus = event_bus
     
+    def has_subscribers(self, event_type: str) -> bool:
+        """
+        Check if there are any subscribers for the given event type.
+        
+        Args:
+            event_type: Type of event to check
+            
+        Returns:
+            True if there are subscribers, False otherwise
+        """
+        if self._event_bus is None:
+            return False
+        return event_type in self._event_bus._subscribers and len(self._event_bus._subscribers[event_type]) > 0
+    
     def emit_event(self, event_type: str, data: Optional[Dict[str, Any]] = None, 
                    tick: Optional[int] = None) -> None:
         """
@@ -262,6 +276,10 @@ class EventMixin:
         """
         if self._event_bus is None:
             return  # Silently fail if no event bus available
+        
+        # Early return if no subscribers - avoid creating event objects unnecessarily
+        if not self.has_subscribers(event_type):
+            return
         
         # Try to get tick from model if not provided
         if tick is None and hasattr(self, 'model') and hasattr(self.model, 'current_tick'):

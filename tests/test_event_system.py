@@ -29,6 +29,83 @@ def create_simple_scenario():
     })
 
 
+def test_has_subscribers():
+    """Test the has_subscribers functionality."""
+    print("Testing has_subscribers functionality")
+    print("=" * 40)
+    
+    # Create a simple model for testing
+    scenario = create_simple_scenario()
+    params = ABMParams(num_ticks=1, verbose=False, show_progress=False, seed=12345)
+    model = ABMModel(scenario, params, name="subscriber_test_model")
+    
+    # Create a test component
+    vital_params = VitalDynamicsParams(crude_death_rate=0.1)  # Low rate for predictable testing
+    
+    class TestComponent(VitalDynamicsProcess):
+        def __init__(self, model, verbose=False):
+            super().__init__(model, verbose=verbose, params=vital_params)
+    
+    model.components = [TestComponent]
+    
+    # Initialize the model by calling _initialize (this sets up the event bus)
+    model._initialize()
+    
+    # Get the component instance
+    test_component = model.instances[0]
+    
+    # Test 1: No subscribers initially
+    print("Test 1: No subscribers for 'deaths' event")
+    has_subs_before = test_component.has_subscribers('deaths')
+    print(f"  has_subscribers('deaths'): {has_subs_before}")
+    assert not has_subs_before, "Should have no subscribers initially"
+    print("  ✓ Correctly reports no subscribers")
+    
+    # Test 2: Add a subscriber
+    print("\nTest 2: Add subscriber for 'deaths' event")
+    def dummy_handler(event):
+        pass
+    
+    model.event_bus.subscribe('deaths', dummy_handler)
+    has_subs_after = test_component.has_subscribers('deaths')
+    print(f"  has_subscribers('deaths'): {has_subs_after}")
+    assert has_subs_after, "Should have subscribers after subscribing"
+    print("  ✓ Correctly reports subscribers exist")
+    
+    # Test 3: Check different event type
+    print("\nTest 3: Check different event type 'births'")
+    has_births_subs = test_component.has_subscribers('births')
+    print(f"  has_subscribers('births'): {has_births_subs}")
+    assert not has_births_subs, "Should have no subscribers for births"
+    print("  ✓ Correctly reports no subscribers for different event type")
+    
+    # Test 4: Verify emit_event optimization
+    print("\nTest 4: Test emit_event optimization")
+    
+    # Count events before
+    stats_before = model.event_bus.get_stats()
+    events_before = stats_before['events_emitted']
+    
+    # Emit event with no subscribers (should be optimized away)
+    test_component.emit_event('nonexistent_event', data={'test': True})
+    
+    # Emit event with subscribers (should go through)
+    test_component.emit_event('deaths', data={'test': True})
+    
+    stats_after = model.event_bus.get_stats()
+    events_after = stats_after['events_emitted']
+    
+    events_emitted = events_after - events_before
+    print(f"  Events emitted: {events_emitted}")
+    assert events_emitted == 1, f"Should have emitted exactly 1 event, got {events_emitted}"
+    print("  ✓ Only emitted event with subscribers")
+    
+    # Cleanup
+    model.cleanup()
+    print("\nhas_subscribers test passed!")
+    print()
+
+
 def test_event_system():
     """Test the event system with a simple simulation."""
     print("Testing ABM Event System")
@@ -161,7 +238,10 @@ def test_event_system():
 
 
 if __name__ == "__main__":
-    # Run the test
+    # Run the has_subscribers test first
+    test_has_subscribers()
+    
+    # Run the main event system test
     model, death_monitor, death_aware = test_event_system()
     
     # Optional: Interactive exploration
