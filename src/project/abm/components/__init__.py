@@ -84,3 +84,7 @@ __all__.extend(["AgePyramidTracker", "AgePyramidTrackerParams"])
 from .tracker_death_monitor import DeathMonitorTracker, DeathMonitorParams, DeathAwareComponent
 
 __all__.extend(["DeathMonitorTracker", "DeathMonitorParams", "DeathAwareComponent"])
+
+from .tracker_birth_monitor import BirthMonitorTracker, BirthMonitorParams, BirthAwareComponent
+
+__all__.extend(["BirthMonitorTracker", "BirthMonitorParams", "BirthAwareComponent"])
