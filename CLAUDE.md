@@ -26,41 +26,6 @@ The project follows a component-based architecture where:
 
 ## Common Development Commands
 
-### Environment Setup
-```bash
-# Install UV package manager
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Create and activate virtual environment with all dependencies
-uv sync
-
-# Install laser-measles submodule in development mode
-cd laser-measles
-uv pip install -e ".[dev]"
-cd ..
-
-# For full development (includes examples and documentation)
-cd laser-measles  
-uv pip install -e ".[full]"
-cd ..
-```
-
-### Submodule Management
-```bash
-# Initialize submodules after cloning
-git submodule update --init --recursive
-
-# Update submodule to specific tag
-cd laser-measles
-git checkout v0.7.2-dev3
-cd ..
-git add laser-measles
-git commit -m "Update submodule to v0.7.2-dev3"
-
-# Update submodule to latest
-git submodule update --remote laser-measles
-```
-
 ### Testing
 ```bash
 # Activate virtual environment first
@@ -87,16 +52,6 @@ pytest --cov --cov-report=term-missing --cov-report=xml -vv tests
 # Format and lint code (run from laser-measles directory)
 ruff check src/ tests/
 ruff format src/ tests/
-
-# Type checking (if available)
-mypy src/
-pyright src/
-```
-
-### CLI Usage
-```bash
-# Test laser-measles CLI
-laser-measles --help
 ```
 
 ## Project-Specific Architecture
@@ -291,4 +246,3 @@ The project maintains full backward compatibility:
 2. **Import Errors**: Ensure virtual environment is activated and both project and laser-measles are installed
 3. **Event System Not Working**: Check that components inherit from EventMixin and implement `set_event_bus()`
 4. **Performance Issues**: Use `use_numba=True` in model parameters for large simulations
-5. **MCV1/Vaccination Errors**: This model has vaccination completely removed. Do not include `mcv1` fields in scenario data or vaccination parameters in components
