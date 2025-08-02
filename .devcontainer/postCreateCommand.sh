@@ -13,3 +13,6 @@ export NVM_DIR="/usr/local/share/nvm"
 nvm install node
 npm install -g @anthropic-ai/claude-code @openai/codex @google/gemini-cli 
 # @qwen-code/qwen-code
+
+# Install git-cliff via cargo
+cargo install git-cliff
