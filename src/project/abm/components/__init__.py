@@ -95,3 +95,10 @@ __all__.extend(["BirthMonitorTracker", "BirthMonitorParams", "BirthAwareComponen
 from .process_mcv1 import MCV1Params, ProcessMCV1
 
 __all__.extend(["MCV1Params", "ProcessMCV1"])
+
+# Maternal Immunity
+# -----------------
+
+from .process_maternal_immunity import MaternalImmunityParams, ProcessMaternalImmunity
+
+__all__.extend(["MaternalImmunityParams", "ProcessMaternalImmunity"])
