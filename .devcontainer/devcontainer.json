@@ -1,6 +1,12 @@
 {
   "name": "Python",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/rust:1": {
+      "version": "latest",
+      "profile": "minimal"
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [
