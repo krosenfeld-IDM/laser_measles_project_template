@@ -88,3 +88,10 @@ __all__.extend(["DeathMonitorTracker", "DeathMonitorParams", "DeathAwareComponen
 from .tracker_birth_monitor import BirthMonitorTracker, BirthMonitorParams, BirthAwareComponent
 
 __all__.extend(["BirthMonitorTracker", "BirthMonitorParams", "BirthAwareComponent"])
+
+# MCV1 Vaccination
+# ----------------
+
+from .process_mcv1 import MCV1Params, ProcessMCV1
+
+__all__.extend(["MCV1Params", "ProcessMCV1"])

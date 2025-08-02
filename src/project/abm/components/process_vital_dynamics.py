@@ -94,6 +94,7 @@ class VitalDynamicsProcess(BaseVitalDynamicsProcess, EventMixin):
             if total_births > 0:
                 # find indices of the people frame for initializing
                 istart, iend = people.add(total_births)
+                people.active[istart:iend] = True  # mark newborns as active
                 people.date_of_birth[istart:iend] = tick  # born today
                 people.susceptibility[istart:iend] = 1.0  # all newborns are susceptible TODO: add maternal immunity component
                 index = istart
