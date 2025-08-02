@@ -1,5 +1,10 @@
 # project
 
+## Project Structure
+- `laser-measles/` - Git submodule containing the core laser-measles framework
+- `src/project/` - Project-specific extensions and customizations
+- `tests/` - Project-specific test files
+
 ## Setup
 
 ### Initializing the Submodule
@@ -75,9 +80,6 @@ git submodule update --remote laser-measles
    # Activate the environment
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    
-   # Test the laser-measles CLI
-   laser-measles --help
-   
    # Run tests to ensure everything is working
    cd laser-measles
    pytest tests/unit/ -v
@@ -86,7 +88,7 @@ git submodule update --remote laser-measles
 
 ### Development Setup
 
-For full development including examples and documentation:
+For full development including examples and documentation for laser-measles:
 
 ```bash
 cd laser-measles
