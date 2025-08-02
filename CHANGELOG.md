@@ -16,6 +16,8 @@
 - Add rust support and git-cliff for changelog generation
 - Add ProcessMCV1 component for delayed vaccination scheduling
 - Add MCV1 integration test and pytest dependency
+- Add git-cliff configuration for changelog generation
+- Add ProcessMaternalImmunity component for newborn protection
 
 ### 🐛 Bug Fixes
 
@@ -35,6 +37,7 @@
 - Add documentation for submodule
 - Add comprehensive project initialization instructions to README
 - Add comprehensive CLAUDE.md guidance for future Claude Code instances
+- Add comprehensive project changelog
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -47,3 +50,4 @@
 - Ignore uv.lock
 - Update uv.lock
 - Remove Serena configuration files
+- Update uv.lock
